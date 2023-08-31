@@ -1,0 +1,180 @@
+{
+	"info": {
+		"_postman_id": "36f81ccb-2d67-4c78-b0ae-92da9ff09f2c",
+		"name": "DynamicUserSegmentation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28996416"
+	},
+	"item": [
+		{
+			"name": "GetAllSegments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/v1/segments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"segments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create segment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\" : \"AVITO_DISCOUNT_test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/v1/segments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"segments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get segment by title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/v1/segments/AVITO_DISCOUNT_90",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"segments",
+						"AVITO_DISCOUNT_90"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete segment by title",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/v1/segments/AVITO_DISCOUNT_test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"segments",
+						"AVITO_DISCOUNT_test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create actions",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": 4,\r\n    \"add_list\":\r\n    [\r\n        {\r\n            \"title\": \"AVITO_VOICE_MESSAGES\",\r\n            \"days\": 3\r\n        },\r\n        {\r\n            \"title\": \"AVITO_DISCOUNT_30\"\r\n        }\r\n    ],\r\n    \"remove_list\": [\"AVITO_DISCOUNT_90\", \"AVITO_DISCOUNT_50\"]\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8181/api/v1/actions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"actions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Active Segments By User_id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/v1/activesegments/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"activesegments",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get data from actions for a period",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/v1/data/2023/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"v1",
+						"data",
+						"2023",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

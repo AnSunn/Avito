@@ -1,0 +1,9 @@
+version: '3'
+services:
+  http_server:
+    build: ./docker/http_server
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./configs:/var/app/bin/configs
+      - ./:/var/app/src

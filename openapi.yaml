@@ -1,0 +1,294 @@
+openapi: 3.0.3
+info:
+  title: Avito task
+  description: Create web-server user/segments.
+  termsOfService: https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md?ysclid=lbcgltqlrc699214600#contactObject
+   
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.33
+externalDocs:
+  description: Initial task
+  url: https://github.com/avito-tech/backend-trainee-assignment-2023
+servers:
+    [
+      {
+      url: "http://localhost:8181",
+      description: "Development server"
+      }
+    ]
+tags:
+  - name: segments
+    description: Operations with segments
+  - name: actions
+    description: Operations with assigning/removing segments to/from users
+paths:
+  /segments:
+    get:
+      tags:
+      - segments
+      responses:
+        '200':
+          description: Successful operation
+          content: 
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Segments'
+               
+        '501':
+          description: Problems extracting segments from the database
+          content: 
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+  /segments/{title}:
+    get:
+      tags:
+      - segments
+      parameters:
+        - name: title
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Segments'
+        '500':
+          description: Troubles while accessing database table
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+  /segmentss:
+    post:
+      tags:
+      - segments
+      requestBody:
+        description: create a new row
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Segment' 
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/Segments'
+        '500':
+          description: Troubles while accessing database table
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+  /segmentss/{title}:
+    delete:
+      tags:
+      - segments
+      parameters:
+        - name: title
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '202':
+          description: The request has been accepted for processing
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '500':
+          description: Troubles while accessing database table
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '501':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+  /actions:
+    post:
+      tags:
+      - actions
+      requestBody:
+        description: create a new row
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Actions' 
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '501':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+
+  /activesegments/{user_id}:
+    get:
+      tags:
+      - actions
+      parameters:
+        - name: user_id
+          in: path
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/ActiveUserSegments'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+        '501':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/LogError'
+ 
+components:
+  schemas:
+    LogError:
+      required:
+      - statusCode
+      - Message
+      - IsError
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 501
+        Message:
+          type: string
+          example: Problem decription
+        IsError:
+          type: boolean
+          example: true
+    Segments:
+      required:
+      - id
+      - title
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 'AVITO_VOICE_MESSAGES'
+        status:
+          type: boolean
+          example: true
+    
+    
+    ActiveUserSegments:
+      required:
+      - user_id
+      - title
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: 'AVITO_VOICE_MESSAGES'
+    
+    Segment:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'AVITO_VOICE_MESSAGES'
+    Actions:
+      required:
+      - user_id
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 2
+        add_list:
+          type: array
+          xml:
+            wrapped: true
+          items:
+            $ref: '#/components/schemas/AddSegment'
+        remove_list:
+          type: array
+          items:
+            type: string
+            example: 'AVITO_DISCOUNT_50'
+
+          
+    AddSegment:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'AVITO_VOICE_MESSAGES'
+        days:
+          type: integer
+          example: 5
+
+  
+
+                
+            
+      
+  
+    
